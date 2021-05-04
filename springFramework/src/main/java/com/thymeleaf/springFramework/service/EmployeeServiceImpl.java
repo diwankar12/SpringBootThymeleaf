@@ -3,6 +3,9 @@ package com.thymeleaf.springFramework.service;
 import com.thymeleaf.springFramework.model.Employee;
 import com.thymeleaf.springFramework.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,5 +45,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(long id) {
 
         employeeRepository.delete(employeeRepository.findById(id).get());
+    }
+
+    @Override
+    public Page<Employee> findPaginated(int pageNo, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNo-1,pageSize);
+        return  employeeRepository.findAll(pageable);
+
     }
 }
